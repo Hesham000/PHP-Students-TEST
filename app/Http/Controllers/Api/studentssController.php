@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\studentss;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class studentssController extends Controller
@@ -45,7 +46,32 @@ class studentssController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $student = new studentss();
+            $student->id =$request->id;
+            $student->Name =$request->Name;
+            $student->Branch =$request->Branch;
+            $student->GPA =$request->GPA;
+            $student->created_at=Carbon::now();
+            $student->updated_at=Carbon::now();
+            $student->save();
+            return response()->json([
+                'message'=>'student created succesfully',
+                'student'=>$student,
+                'status'=>200,
+
+            ]);
+
+        }catch (\Exception $e){
+            return response()->json([
+                'message'=>'Student not succesfully',
+                'student'=>$student,
+                'status'=>201,
+                '4'=>$e,
+
+            ]);
+
+        }
     }
 
     /**
